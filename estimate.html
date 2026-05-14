@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GeMi Design | 프로젝트 견적 요청</title>
+    <!-- Supabase 라이브러리 로드 -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root { 
+            --primary: #ff5500; 
+            --bg: #fcfcfc; 
+            --border: #eeeeee;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Noto Sans KR', sans-serif; }
+        
+        body { 
+            background-color: var(--bg); 
+            color: #333; 
+            padding: 40px 20px; 
+            line-height: 1.6; 
+        }
+
+        .form-container { 
+            max-width: 650px; 
+            margin: 0 auto; 
+            background: #fff; 
+            padding: 40px; 
+            border-radius: 16px; 
+            border: 1px solid var(--border); 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.02); 
+        }
+
+        .header { text-align: center; margin-bottom: 35px; }
+        .header h1 { font-size: 1.8rem; font-weight: 700; margin-bottom: 10px; letter-spacing: -1px; }
+        .header p { color: #888; font-size: 0.95rem; font-weight: 300; }
+
+        .form-group { margin-bottom: 22px; }
+        label { 
+            display: block; 
+            font-size: 0.85rem; 
+            font-weight: 600; 
+            margin-bottom: 8px; 
+            color: #444; 
+        }
+
+        input, select, textarea { 
+            width: 100%; 
+            padding: 14px; 
+            border: 1px solid var(--border); 
+            border-radius: 10px; 
+            font-size: 0.95rem; 
+            background: #fafafa; 
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+        }
+
+        input:focus, select:focus, textarea:focus { 
+            outline: none; 
+            border-color: var(--primary); 
+            background: #fff; 
+            box-shadow: 0 0 0 4px rgba(255, 85, 0, 0.05);
+        }
+
+        .guide-box { 
+            background: #f9f9f9; 
+            padding: 20px; 
+            border-radius: 10px; 
+            font-size: 0.85rem; 
+            color: #666; 
+            margin-bottom: 30px; 
+            border-left: 4px solid var(--primary);
+        }
+
+        .submit-btn { 
+            width: 100%; 
+            padding: 18px; 
+            background: #111; 
+            color: #fff; 
+            border: none; 
+            border-radius: 10px; 
+            font-size: 1.1rem; 
+            font-weight: 600; 
+            cursor: pointer; 
+            transition: 0.3s; 
+        }
+
+        .submit-btn:hover { 
+            background: var(--primary); 
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 85, 0, 0.2);
+        }
+
+        .submit-btn:disabled { 
+            background: #ccc; 
+            cursor: not-allowed; 
+            transform: none;
+        }
+
+        option { font-size: 0.9rem; padding: 10px; }
+
+        @media (max-width: 480px) {
+            .form-container { padding: 30px 20px; }
+            .header h1 { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="form-container">
+    <div class="header">
+        <h1>PROJECT REQUEST</h1>
+        <p>장형규 디자이너의 스마트 비즈니스 솔루션을 신청하세요.</p>
+    </div>
+
+    <form id="estimateForm">
+        <div class="form-group">
+            <label>성함 / 기업명</label>
+            <input type="text" id="client_name" placeholder="예: 홍길동" required>
+        </div>
+
+        <div class="form-group">
+            <label>연락처 (전화번호)</label>
+            <input type="tel" id="phone" placeholder="예: 010-0000-0000" required>
+        </div>
+
+        <div class="form-group">
+            <label>상담 유형 선택</label>
+            <select id="project_type">
+                <option value="알뜰형">🔹 알뜰형: 가성비 올인원 (미니멀 디자인+Typebot+QR)</option>
+                <option value="스마트형">🔹 스마트형: 실시간 대응 (알뜰형+레이아웃 추가+텔레그램 알림)</option>
+                <option value="비즈니스 풀패키지">🔹 비즈니스 풀패키지: 자동화 완성 (스마트형+Supabase DB+LLM AI 챗봇)</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>예상 예산 범위</label>
+            <select id="budget">
+                <option value="50,000">50,000원 (알뜰형)</option>
+                <option value="150,000 이상">150,000원 ~ (스마트형)</option>
+                <option value="500,000 이상">500,000원 ~ (비즈니스 풀패키지)</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>상세 요청 및 참고사항</label>
+            <textarea id="message" rows="4" placeholder="참고 사이트나 구체적인 비즈니스 내용을 적어주세요."></textarea>
+        </div>
+
+        <div class="guide-box">
+            <strong>💡 GeMi Design 서비스 안내</strong><br>
+            • 모든 패키지는 <strong>Quiet Luxury</strong> 무드의 미니멀 디자인을 지향합니다.<br>
+            • 무료 호스팅(Netlify)을 지원하여 평생 서버 유지 비용이 0원입니다.
+        </div>
+
+        <button type="submit" class="submit-btn" id="submitBtn">상담 문의하기</button>
+    </form>
+</div>
+
+<script>
+    // [설정] Supabase 정보
+    const SUPABASE_URL = 'https://bjbpjkeahkupmeuvfwys.supabase.co'; 
+    const SUPABASE_ANON_KEY = 'sb_publishable_yHPGOhKSEPAehg-sin-7IQ_nHtfYBWU';
+
+    // [설정] 텔레그램 정보
+    const TELEGRAM_BOT_TOKEN = '8634715913:AAFViFIFDLaj-WsSvvuGUXmK1KMvjWOjNyE';
+    const TELEGRAM_CHAT_ID = '859745575';
+
+    // Supabase 클라이언트 초기화
+    const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    const form = document.getElementById('estimateForm');
+    const btn = document.getElementById('submitBtn');
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        btn.disabled = true;
+        btn.innerText = '문의 전송 중...';
+
+        const data = {
+            client_name: document.getElementById('client_name').value,
+            phone: document.getElementById('phone').value,
+            project_type: document.getElementById('project_type').value,
+            budget: document.getElementById('budget').value,
+            message: document.getElementById('message').value
+        };
+
+        try {
+            // 1. Supabase 데이터 저장
+            const { error: dbError } = await _supabase.from('estimates').insert([data]);
+            if (dbError) throw dbError;
+
+            // 2. 텔레그램 알림 전송
+            const text = `🔔 [GeMi Design] 신규 프로젝트 문의\n\n` +
+                         `👤 성함: ${data.client_name}\n` +
+                         `📞 연락처: ${data.phone}\n` +
+                         `📦 유형: ${data.project_type}\n` +
+                         `💰 예산: ${data.budget}\n` +
+                         `📝 상세: ${data.message}`;
+
+            const tgResponse = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    chat_id: TELEGRAM_CHAT_ID,
+                    text: text
+                })
+            });
+
+            if (!tgResponse.ok) throw new Error('Telegram 전송 실패');
+
+            alert('성공적으로 접수되었습니다. 곧 연락드리겠습니다!');
+            form.reset();
+
+        } catch (err) {
+            console.error('Error:', err);
+            alert('오류가 발생했습니다. 잠시 후 다시 시도해 주세요.');
+        } finally {
+            btn.disabled = false;
+            btn.innerText = '상담 문의하기';
+        }
+    });
+</script>
+
+</body>
+</html>

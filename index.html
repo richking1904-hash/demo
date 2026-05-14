@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GeMi Design | 스마트 웹명함 서비스 안내</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
+    
+    <style>
+        /* 기본 스타일 초기화 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Noto Sans KR', sans-serif;
+            letter-spacing: -0.5px;
+        }
+
+        body {
+            background-color: #ffffff;
+            color: #333;
+            line-height: 1.7;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* 상단 히어로 섹션 */
+        .hero-section {
+            padding: 100px 0 60px 0;
+            text-align: center;
+            background: #fafafa;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .brand-tag {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            color: #888;
+            letter-spacing: 4px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+
+        .main-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #111;
+            line-height: 1.4;
+            margin-bottom: 20px;
+        }
+
+        .main-title span {
+            color: #ff5500;
+        }
+
+        .sub-title {
+            font-size: 1.1rem;
+            color: #666;
+            font-weight: 300;
+        }
+
+        /* 서비스 특징 섹션 */
+        .features-section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 50px;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 40px;
+            height: 3px;
+            background: #111;
+            margin: 15px auto 0 auto;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .feature-card {
+            background: #fff;
+            padding: 40px 30px;
+            border-radius: 8px;
+            border: 1px solid #eaeaea;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.05);
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #222;
+        }
+
+        .feature-card p {
+            font-size: 0.95rem;
+            color: #666;
+            font-weight: 300;
+        }
+
+        /* 프로세스 섹션 */
+        .process-section {
+            padding: 80px 0;
+            background: #ffffff;
+        }
+
+        .process-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 15px;
+            margin-top: 40px;
+            align-items: start;
+        }
+
+        .process-item {
+            text-align: center;
+            position: relative;
+        }
+
+        .process-item:not(:last-child)::after {
+            content: '→';
+            position: absolute;
+            top: 35%;
+            right: -12px;
+            font-size: 1.5rem;
+            color: #ff5500;
+            font-weight: bold;
+        }
+
+        .process-img-box {
+            background: #f9f9f9;
+            border: 1px solid #eee;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+            min-height: 220px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+        }
+
+        .process-img-box img {
+            max-width: 100%;
+            max-height: 190px;
+            object-fit: contain;
+            border-radius: 6px;
+        }
+
+        .process-step {
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #ff5500;
+            background: #fff0e6;
+            padding: 2px 8px;
+            border-radius: 20px;
+            margin-bottom: 8px;
+        }
+
+        .process-item h3 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #222;
+            margin-bottom: 8px;
+        }
+
+        .process-item p {
+            font-size: 0.85rem;
+            color: #777;
+            line-height: 1.5;
+            font-weight: 300;
+        }
+
+        /* 포트폴리오 섹션 */
+        .portfolio-section {
+            padding: 80px 0;
+            background: #fcfcfc;
+        }
+
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+            margin-top: 40px;
+        }
+
+        .portfolio-item {
+            background: #fff;
+            border: 1px solid #eee;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.02);
+        }
+
+        .mockup-container {
+            background: #f3f3f3;
+            padding: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 450px;
+        }
+
+        .mockup-img {
+            max-width: 100%;
+            height: auto;
+            max-height: 380px;
+            object-fit: contain;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            border-radius: 20px;
+        }
+
+        .portfolio-info {
+            padding: 25px;
+        }
+
+        .portfolio-tag {
+            font-size: 0.8rem;
+            color: #ff5500;
+            font-weight: 600;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        .portfolio-link {
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        .portfolio-name {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #222;
+            transition: color 0.2s ease;
+        }
+
+        .portfolio-link:hover .portfolio-name {
+            color: #ff5500;
+            text-decoration: underline;
+        }
+
+        .portfolio-desc {
+            font-size: 0.9rem;
+            color: #666;
+            font-weight: 300;
+        }
+
+        /* 하단 CTA 섹션 및 버튼 스타일 */
+        .cta-section {
+            padding: 90px 0;
+            text-align: center;
+            background: #111;
+            color: #fff;
+        }
+
+        .cta-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .cta-desc {
+            font-size: 1.05rem;
+            font-weight: 300;
+            color: #aaa;
+            margin-bottom: 40px;
+        }
+
+        .cta-button-group {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+            max-width: 450px;
+            margin: 0 auto;
+        }
+
+        .btn-main {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 18px 0;
+            border-radius: 35px;
+            font-weight: 600;
+            font-size: 1.15rem;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .btn-chat {
+            background: #ff5500;
+            color: #fff;
+        }
+        
+        .btn-chat:hover {
+            background: #e04b00;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 85, 0, 0.3);
+        }
+
+        .btn-kakao {
+            background: #FEE500;
+            color: #3A1D1D;
+        }
+
+        .btn-kakao:hover {
+            background: #fada00;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(254, 229, 0, 0.3);
+        }
+
+        .btn-icon {
+            margin-right: 10px;
+            font-size: 1.3rem;
+        }
+
+        @media (max-width: 992px) {
+            .process-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            .process-item::after {
+                display: none !important;
+            }
+            .process-img-box {
+                min-height: auto;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .grid-3, .portfolio-grid {
+                grid-template-columns: 1fr;
+            }
+            .main-title {
+                font-size: 2rem;
+            }
+            .btn-main {
+                font-size: 1rem;
+                padding: 16px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="hero-section">
+        <div class="container">
+            <div class="brand-tag">GeMi Design</div>
+            <h1 class="main-title">24시간 일하는 스마트 비서,<br><span>고효율 모바일 웹명함</span>을 제작합니다.</h1>
+            <p class="sub-title">의뢰인의 브랜드 정체성을 담은 미니멀 디자인과 인터랙티브 챗봇의 결합</p>
+        </div>
+    </header>
+
+    <section class="features-section">
+        <div class="container">
+            <h2 class="section-title">왜 GeMi의 웹명함일까요?</h2>
+            <div class="grid-3">
+                <div class="feature-card">
+                    <div class="feature-icon">✨</div>
+                    <h3>감각적인 미니멀 디자인</h3>
+                    <p>Quiet Luxury를 지향하며, 복잡한 요소는 덜어내고 브랜드 고유의 감성과 신뢰감을 극대화합니다.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🤖</div>
+                    <h3>타입봇(Typebot) 연동 비서</h3>
+                    <p>단순 링크 나열을 넘어, 방문자와 24시간 실시간으로 소통하고 문의를 접수하는 스마트 챗봇 환경을 구축합니다.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3>모바일 최적화 레이아웃</h3>
+                    <p>인스타그램, 네이버 블로그 등 다양한 채널 링크를 한곳에 정돈하여 전환율을 높이는 UI를 제공합니다.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="process-section">
+        <div class="container">
+            <h2 class="section-title">웹명함 하나로 구축하는 자동화 운영 프로세스</h2>
+            <div class="process-grid">
+                <div class="process-item">
+                    <div class="process-img-box">
+                        <img src="demo1.png" alt="모바일 웹명함 메인 이미지">
+                    </div>
+                    <span class="process-step">STEP 01</span>
+                    <h3>모바일 웹명함</h3>
+                    <p>인스타 링크트리 대용 및 첫인상을 사로잡는 모바일 명함</p>
+                </div>
+                <div class="process-item">
+                    <div class="process-img-box">
+                        <img src="demo2.png" alt="웹 포트폴리오 이미지">
+                    </div>
+                    <span class="process-step">STEP 02</span>
+                    <h3>웹 포트폴리오 연동</h3>
+                    <p>내 작업물과 전문성을 스크롤 한 번으로 투명하게 공개</p>
+                </div>
+                <div class="process-item">
+                    <div class="process-img-box">
+                        <img src="demo3.png" alt="챗봇 대화 이미지">
+                    </div>
+                    <span class="process-step">STEP 03</span>
+                    <h3>인터랙티브 챗봇 상담</h3>
+                    <p>방문자에게 질문을 던지며 자연스럽게 니즈 파악</p>
+                </div>
+                <div class="process-item">
+                    <div class="process-img-box">
+                        <img src="demo4.png" alt="문의 접수 완료 이미지">
+                    </div>
+                    <span class="process-step">STEP 04</span>
+                    <h3>실시간 문의 접수</h3>
+                    <p>고객이 상담 양식을 채우고 간편하게 문의 신청 완료</p>
+                </div>
+                <div class="process-item">
+                    <div class="process-img-box">
+                        <img src="demo5.jpg" alt="텔레그램 알림 이미지">
+                    </div>
+                    <span class="process-step">STEP 05</span>
+                    <h3>텔레그램 즉시 알림</h3>
+                    <p>자리를 비워도 폰으로 문의 내용이 즉시 전송되는 연동 시스템</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="portfolio-section">
+        <div class="container">
+            <h2 class="section-title">제작 포트폴리오 쇼케이스</h2>
+            <div class="portfolio-grid">
+                <!-- 1. 브랜드 디자이너 -->
+                <div class="portfolio-item">
+                    <div class="mockup-container">
+                        <img src="mockup_designer.png" alt="브랜드 디자이너 목업" class="mockup-img">
+                    </div>
+                    <div class="portfolio-info">
+                        <div class="portfolio-tag">Personal Branding</div>
+                        <a href="https://richking1904-hash.github.io/" target="_blank" class="portfolio-link">
+                            <h3 class="portfolio-name">GeMi 브랜드 디자이너 웹명함 ↗</h3>
+                        </a>
+                        <p class="portfolio-desc">디자이너의 포트폴리오와 소셜 채널을 직관적으로 구조화하고, 하단에 스마트 안내 비서를 탑재한 프로페셔널 레이아웃입니다.</p>
+                    </div>
+                </div>
+                <!-- 2. 금융 자산관리 -->
+                <div class="portfolio-item">
+                    <div class="mockup-container">
+                        <img src="mockup_financial.png" alt="금융 자산관리 목업" class="mockup-img">
+                    </div>
+                    <div class="portfolio-info">
+                        <div class="portfolio-tag">Professional / Finance</div>
+                        <a href="https://richking1904-hash.github.io/bo-h/" target="_blank" class="portfolio-link">
+                            <h3 class="portfolio-name">이지원 자산관리 파트너 스마트 명함 ↗</h3>
+                        </a>
+                        <p class="portfolio-desc">신뢰감을 주는 블루 톤과 정돈된 프로필을 기반으로, 무료 분석 신청 및 빠른 전화 상담 예약을 챗봇 양식으로 유도합니다.</p>
+                    </div>
+                </div>
+                <!-- 3. 농부 브랜드 -->
+                <div class="portfolio-item">
+                    <div class="mockup-container">
+                        <img src="mockup_farmer.png" alt="생산자 브랜드 목업" class="mockup-img">
+                    </div>
+                    <div class="portfolio-info">
+                        <div class="portfolio-tag">E-Commerce / Producer</div>
+                        <a href="https://aplle-11.netlify.app/" target="_blank" class="portfolio-link">
+                            <h3 class="portfolio-name">청춘사과농부 강태양 웹명함 ↗</h3>
+                        </a>
+                        <p class="portfolio-desc">자연 친화적인 무드와 정성 가득한 스토리텔링을 결합하고, 구매 버튼을 명확히 노출하여 주문율을 높입니다.</p>
+                    </div>
+                </div>
+                <!-- 4. 뷰티 브랜드 -->
+                <div class="portfolio-item">
+                    <div class="mockup-container">
+                        <img src="mockup_mui.png" alt="뷰티 브랜드 목업" class="mockup-img">
+                    </div>
+                    <div class="portfolio-info">
+                        <div class="portfolio-tag">Beauty / Detail Page</div>
+                        <a href="https://hand-cream.netlify.app/" target="_blank" class="portfolio-link">
+                            <h3 class="portfolio-name">MUI Hand Therapy 모바일 상세 안내 ↗</h3>
+                        </a>
+                        <p class="portfolio-desc">어시(Earthy)한 감성과 비건 콘셉트에 맞춘 차분하고 정돈된 비주얼 중심의 제품 소개 특화 페이지입니다.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="container">
+            <h2 class="cta-title">나만을 위한 스마트 명함, 지금 준비하세요</h2>
+            <p class="cta-desc">업종과 브랜드 이미지에 맞춘 1:1 맞춤형 기획 및 디자인을 약속드립니다.</p>
+            
+            <div class="cta-button-group">
+                <!-- 버튼 1: 24시간 상담 (estimate.html 링크 연결) -->
+                <!-- 생성된 estimate 페이지의 URL을 아래 href="여기"에 입력하세요 -->
+                <a href="estimate.html" class="btn-main btn-chat" target="_blank">
+                    <span class="btn-icon">💬</span>24시간 비즈니스 상담문의
+                </a>
+                
+                <!-- 버튼 2: 카카오톡 상담 -->
+                <a href="https://open.kakao.com/o/s1hCsEui" class="btn-main btn-kakao" target="_blank">
+                    <span class="btn-icon">🗨️</span>카톡 1:1 실시간 상담
+                </a>
+            </div>
+        </div>
+    </section>
+
+</body>
+</html>
